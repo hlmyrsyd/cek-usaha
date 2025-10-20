@@ -1,7 +1,7 @@
 'use client'
 import { motion } from "motion/react";
 import Image from "next/image";
-import { TransitionWrapper } from "./components/transitionWrapper";
+import { TransitionWrapper } from "./components";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -18,6 +18,7 @@ export default function Home() {
   
   return (
     <div>
+
       <TransitionWrapper isTransitioning={isTransitioning}>
         <div className="flex flex-col w-full h-[100vh] justify-center items-center px-6 py-12 md:p-10">
           <motion.div
@@ -32,6 +33,13 @@ export default function Home() {
             transition={{
               ease: 'circInOut',
               duration: 1.2
+            }}
+            whileHover={{
+              rotate: -360,
+              transition: {
+                  duration: 1.2,
+                  ease: 'circInOut'
+              }
             }}
           >
             <Image 
