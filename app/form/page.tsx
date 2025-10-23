@@ -1,7 +1,7 @@
 'use client'
 import { motion } from "motion/react";
 import Image from "next/image";
-import { FormCard, OpeningContainer, TransitionWrapper } from "../components";
+import { FormCarousel, OpeningContainer, TransitionWrapper } from "../components";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -11,10 +11,18 @@ export default function FormPage() {
     const router = useRouter();
 
     const cards = [
-        { title: "Info Awal", color: "#A36D2A" },
-        { title: "Legalitas", color: "#FC4F1E" },
-        { title: "Komunitas", color: "#153D8A" },
-        { title: "SDM", color: "#3B2676" },
+        { title: "Info Awal", color: "#FCB040" },
+        { title: "Legalitas", color: "#FE6131" },
+        { title: "Komunitas", color: "#3D7FFD" },
+        { title: "SDM", color: "#6F6DFF" },
+        { title: "Produksi", color: "#029B48" },
+        { title: "Operasional", color: "#FCB040" },
+        { title: "Lifecycle", color: "#FE6131" },
+        { title: "Profile", color: "#3D7FFD" },
+        { title: "Keuangan", color: "#6F6DFF" },
+        { title: "Omzet", color: "#029B48" },
+        { title: "Aset", color: "#FCB040" },
+        { title: "Laba", color: "#FE6131" },
     ];
 
     const handleTransition = (route: string) => {
@@ -32,7 +40,7 @@ export default function FormPage() {
         <div>
             <OpeningContainer title={"Sudah siap isi Formnya?"} />
             <TransitionWrapper isTransitioning={isTransitioning}>
-                <div className="flex flex-col w-full h-[100vh] justify-center items-center px-6 pt-12 md:px-10 md:pt-10">
+                <div className="flex flex-col w-full h-[100vh] overflow-hidden justify-center items-center px-6 pt-12 md:px-10 md:pt-10">
                     <motion.div
                         initial={{
                             y: -100,
@@ -66,28 +74,11 @@ export default function FormPage() {
                     <div 
                         className="flex flex-col w-full h-full justify-between md:justify-center items-center gap-10"
                     >
-                        {/* Carousel Section */}
-                        <div className="relative flex justify-center items-center w-full max-w-[420px] h-[500px] mt-10">
-                            {cards.map((card, index) => (
-                            <motion.div
-                                key={index}
-                                className="absolute"
-                                animate={{
-                                x: (index - activeIndex) * 450, // move left/right depending on active index
-                                scale: index === activeIndex ? 1 : 0.9,
-                                zIndex: index === activeIndex ? 10 : 0,
-                                }}
-                                transition={{ type: "spring", stiffness: 100, damping: 20 }}
-                            >
-                                <FormCard
-                                    title={card.title}
-                                    color={card.color}
-                                    isActive={index === activeIndex}
-                                    onClick={handleNext}
-                                />
-                            </motion.div>
-                            ))}
-                        </div>
+                        <FormCarousel 
+                            cards={cards} 
+                            activeIndex={activeIndex} 
+                            handleNext={handleNext} 
+                        />
                     </div>
                 </div>
             </TransitionWrapper>

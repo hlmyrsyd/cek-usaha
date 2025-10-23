@@ -16,7 +16,7 @@ export const FormCard = ({ title, color, isActive, onClick }: FormCardProps) => 
             className="rounded-3xl p-10 w-[420px] h-[500px] flex flex-col justify-start items-center px-6 text-white font-bold cursor-pointer shadow-lg"
             style={{ backgroundColor: color }}
             animate={{
-                y: isActive ? -100 : 600,
+                y: isActive ? 0 : 600,
                 scale: isActive ? 1.05 : 1,
                 opacity: 1,
             }}
