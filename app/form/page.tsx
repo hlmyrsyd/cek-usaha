@@ -11,18 +11,18 @@ export default function FormPage() {
     const router = useRouter();
 
     const cards = [
-        { title: "Info Awal", color: "#FCB040" },
-        { title: "Legalitas", color: "#FE6131" },
-        { title: "Komunitas", color: "#3D7FFD" },
-        { title: "SDM", color: "#6F6DFF" },
-        { title: "Produksi", color: "#029B48" },
-        { title: "Operasional", color: "#FCB040" },
-        { title: "Lifecycle", color: "#FE6131" },
-        { title: "Profile", color: "#3D7FFD" },
-        { title: "Keuangan", color: "#6F6DFF" },
-        { title: "Omzet", color: "#029B48" },
-        { title: "Aset", color: "#FCB040" },
-        { title: "Laba", color: "#FE6131" },
+        { title: "Info Awal", desc: "Mari mulai dari perkenalan bisnismu!", color: "#FCB040" },
+        { title: "Legalitas", desc: "Legalitas usaha itu penting! Biar lebih dipercaya pelanggan & gampang dapat akses modal!", color: "#FE6131" },
+        { title: "Komunitas", desc: "Komunitas untuk saling mendapatkan info terkait bisnis umkm yang kita jalani!", color: "#3D7FFD" },
+        { title: "SDM", desc: "Sumber Daya Manusia yang berperan dalam jalannya usaha anda!", color: "#6F6DFF" },
+        { title: "Produksi", desc: "Seberapa luas pemasaran produk yang sudah anda lakukan?", color: "#029B48" },
+        { title: "Operasional", desc: "Apa saja strategi dan operasional usaha yang sudah ada persiapan untuk bisnis anda?", color: "#FCB040" },
+        { title: "Lifecycle", desc: "Lifecycle bisnis adalah perkembangan bisnis secara bertahap dari waktu ke waktu", color: "#FE6131" },
+        { title: "Profile", desc: "Profile bisnis dapat memperlihatkan kualitas dari bisnis itu sendiri!", color: "#3D7FFD" },
+        { title: "Keuangan", desc: "Keuangan usaha itu penting untuk dapat mengelola usaha untuk bisa terus berkembang!", color: "#6F6DFF" },
+        { title: "Omzet", desc: "Omzet bisnis yang baik sangat berpengaruh dalam menarik minat investor!", color: "#029B48" },
+        { title: "Aset", desc: "Aset bisnis sangat membantu dalam perkembangan bisnis seperti, alat produksi, mesin, dan lain sebagainya", color: "#FCB040" },
+        { title: "Laba", desc: "Laba adalah keuntungan bersih yang didapat setelah menyisihkan seluruh budget produksi dan lainnya!", color: "#FE6131" },
     ];
 
     const handleTransition = (route: string) => {
@@ -34,6 +34,10 @@ export default function FormPage() {
 
     const handleNext = () => {
         setActiveIndex((prev) => (prev + 1) % cards.length);
+    };
+
+    const handlePrev = () => {
+        setActiveIndex((prev) => Math.max(prev - 1, 0));
     };
 
     return (    
@@ -75,9 +79,10 @@ export default function FormPage() {
                         className="flex flex-col w-full h-full justify-between md:justify-center items-center gap-10"
                     >
                         <FormCarousel 
-                            cards={cards} 
-                            activeIndex={activeIndex} 
-                            handleNext={handleNext} 
+                            cards={cards}
+                            activeIndex={activeIndex}
+                            handleNext={handleNext}
+                            handlePrev={handlePrev}
                         />
                     </div>
                 </div>
