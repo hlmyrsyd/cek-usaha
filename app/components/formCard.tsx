@@ -52,30 +52,9 @@ export const FormCard = ({
                     <h2 className="text-2xl font-black uppercase">{title}</h2>
                     <p className="text-sm">{desc}</p>
                 </div>
-                <FormQuestion title={title} onNext={onNext} />
+                <FormQuestion color={color} title={title} onNext={onNext} />
             </div>
             
-
-            {/* Only show Next button on the active card */}
-            {/* {isActive && (
-                
-
-                <div className="w-full flex justify-end">
-                    <motion.button
-                        className=" bg-[#1E1E1E] px-10 py-2 rounded-lg font-bold cursor-pointer"
-                        style={{
-                            color: color
-                        }}
-                        initial={{y: 10, opacity: 0}}
-                        animate={{ y: 0, opacity: 1}}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        onClick={onNext}
-                    >
-                        Next
-                    </motion.button>
-                </div>
-            )} */}
         </motion.div>
     );
 };

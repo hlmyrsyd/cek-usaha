@@ -3,12 +3,14 @@ import { motion } from "motion/react";
 import Image from "next/image";
 import { FormCarousel, OpeningContainer, TransitionWrapper } from "../components";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { FormQuestionRef } from "../components/formQuestion";
 
 export default function FormPage() {
     const [isTransitioning, setIsTransitioning] = useState(false);
     const [activeIndex, setActiveIndex] = useState(0);
     const router = useRouter();
+    const formRefs = useRef<Record<string, FormQuestionRef | null>>({});
 
     const cards = [
         { title: "Info Awal", desc: "Mari mulai dari perkenalan bisnismu!", color: "#FCB040" },
@@ -33,6 +35,16 @@ export default function FormPage() {
     };
 
     const handleNext = () => {
+        const currentCard = cards[activeIndex];
+        const formRef = formRefs.current[currentCard.title];
+
+        if (formRef) {
+            const answers = formRef.getAnswers(); // get from FormQuestion
+            console.log({
+            [currentCard.title]: answers,
+            });
+        }
+
         setActiveIndex((prev) => (prev + 1) % cards.length);
     };
 
