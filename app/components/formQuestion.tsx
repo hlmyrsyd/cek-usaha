@@ -69,7 +69,7 @@ export const FormQuestion = forwardRef<FormQuestionRef, FormQuestionProps>(
         };
 
         return (
-        <div className="flex flex-col w-full gap-2 mt-2 relative">
+        <div className="flex flex-col w-full h-full gap-2 mt-2">
             {questions.map((q) => (
             <div key={q.id} className="flex flex-col gap-1">
                 <label className="text-lg font-black">{q.label}</label>
@@ -153,7 +153,7 @@ export const FormQuestion = forwardRef<FormQuestionRef, FormQuestionProps>(
                 )}
 
                 {q.type === "checkbox" && (
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-2">
                     {q.options.map((opt) => {
                     const isSelected =
                         Array.isArray(answers[q.id]) &&
@@ -162,10 +162,10 @@ export const FormQuestion = forwardRef<FormQuestionRef, FormQuestionProps>(
                     return (
                         <label
                         key={opt}
-                        className={`flex items-center gap-3 text-sm font-semibold rounded-lg px-3 py-2 border cursor-pointer transition-all
+                        className={`flex items-center gap-2 text-sm font-semibold rounded-lg px-2 py-2 border cursor-pointer transition-all
                             ${
                             isSelected
-                                ? "bg-white border-[#FCB040] text-black"
+                                ? "bg-white border-white text-black"
                                 : "bg-white/70 border-white/70 text-gray-500 hover:bg-gray-100"
                             }`}
                         onClick={() => {
@@ -178,18 +178,18 @@ export const FormQuestion = forwardRef<FormQuestionRef, FormQuestionProps>(
                             });
                         }}
                         >
-                        <div
-                            className={`flex justify-center items-center w-6 h-6 rounded-sm font-bold 
-                            ${
-                                isSelected
-                                ? "text-[#1E1E1E]"
-                                : "bg-gray-400 text-white"
-                            }`}
-                            style={isSelected ? { backgroundColor: color } : undefined}
-                        >
-                            ✓
-                        </div>
-                        <span className="text-sm font-medium">{opt}</span>
+                            <div
+                                className={`flex shrink-0 justify-center items-center w-6 h-6 rounded-sm font-bold 
+                                ${
+                                    isSelected
+                                    ? "text-[#1E1E1E]"
+                                    : "bg-white text-white"
+                                }`}
+                                style={isSelected ? { backgroundColor: color } : undefined}
+                            >
+                                ✓
+                            </div>
+                                <span className="text-sm font-medium">{opt}</span>
                         </label>
                     );
                     })}

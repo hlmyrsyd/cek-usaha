@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { FormQuestion } from ".";
+import { useEffect, useRef, useState } from "react";
 
 export interface FormCardProps {
     title: string;
@@ -26,6 +27,48 @@ export const FormCard = ({
         if (isPrev) onPrev();
     };
 
+    const isOperasional = title === "Operasional";
+
+    const contentRef = useRef<HTMLDivElement>(null);
+    const [isScrollable, setIsScrollable] = useState(false);
+    const [isBottom, setIsBottom] = useState(false);
+
+    useEffect(() => {
+        if (!isOperasional) {
+            setIsScrollable(false);
+            return;
+        }
+        const el = contentRef.current;
+        if (!el) return;
+
+        const checkScrollable = () => {
+            if (!el) return;
+            setIsScrollable(el.scrollHeight > el.clientHeight);
+        };
+
+        checkScrollable();
+        
+        window.addEventListener("resize", checkScrollable);
+        return () => window.removeEventListener("resize", checkScrollable);
+    }, [title, isOperasional]);
+
+
+    useEffect(() => {
+        if (!isOperasional) return;
+
+        const el = contentRef.current;
+        if (!el) return;
+
+        const handleScroll = () => {
+        const atBottom =
+            el.scrollTop + el.clientHeight >= el.scrollHeight - 10;
+        setIsBottom(atBottom);
+        };
+
+        el.addEventListener("scroll", handleScroll);
+        return () => el.removeEventListener("scroll", handleScroll);
+    }, [isOperasional]);
+
     return (
         <motion.div
             onClick={handleClick}
@@ -47,14 +90,57 @@ export const FormCard = ({
                 damping: 20,
             }}
         >
-            <div className="w-full font-normal flex flex-col gap-4">
-                <div>
-                    <h2 className="text-2xl font-black uppercase">{title}</h2>
-                    <p className="text-sm">{desc}</p>
+            {/* Overlay for non-active cards */}
+            {!isActive && (
+                <div
+                    className={`absolute inset-0 bg-white/70 flex items-center justify-center text-center text-[#1E1E1E] font-semibold text-lg transition-all group duration-200 z-10`}
+                >
+                    {isPrev && (
+                        <span className="bg-white rounded-2xl p-4 backdrop-blur-2xl opacity-0 group-hover:opacity-100 transition-opacity text-[#1E1E1E] z-50">
+                            Masih belum yakin dengan jawabanmu? <br/><span className="italic font-bold text-xl">Click Here</span>
+                        </span>
+                    )}
                 </div>
-                <FormQuestion color={color} title={title} onNext={onNext} />
+            )}
+
+            {/* Main content */}
+            <div className="relative w-full h-full overflow-hidden font-normal flex flex-col gap-4">
+                <div>
+                <h2 className="text-2xl font-black uppercase">{title}</h2>
+                <p className="text-sm">{desc}</p>
+                </div>
+
+                {/* Scrollable area only for Operasional */}
+                {isOperasional ? (
+                <div ref={contentRef} className="relative h-full overflow-y-auto pr-2">
+                    <FormQuestion color={color} title={title} onNext={onNext} />
+
+                    {/* "Scroll for more" text above gradient */}
+                    {isScrollable && !isBottom && (
+                    <div className="absolute bottom-10 left-0 w-full flex justify-center text-lg font-medium text-[#1E1E1E]/70 animate-pulse z-20">
+                        Scroll for more ↓
+                    </div>
+                    )}
+
+                    {/* Fade masks only if scrollable */}
+                    {isScrollable && (
+                    <>
+                        {/* Bottom gradient that fades out when scrolled to bottom */}
+                        <div
+                        className={`absolute -bottom-2.5 left-0 w-full h-52 pointer-events-none transition-opacity duration-300 z-10 ${
+                            isBottom ? "opacity-0" : "opacity-100"
+                        } bg-gradient-to-t from-[#FCB040] via-[#FCB040]/80 to-transparent`}
+                        />
+                    </>
+                    )}
+                </div>
+                ) : (
+                // Non-operasional cards: no scroll
+                <div className="relative h-full">
+                    <FormQuestion color={color} title={title} onNext={onNext} />
+                </div>
+                )}
             </div>
-            
         </motion.div>
     );
 };
