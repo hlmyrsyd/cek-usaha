@@ -27,14 +27,14 @@ export const FormCard = ({
         if (isPrev) onPrev();
     };
 
-    const isOperasional = title === "Operasional";
+    const isScrollableCard = ["Operasional", "Keuangan"].includes(title);
 
     const contentRef = useRef<HTMLDivElement>(null);
     const [isScrollable, setIsScrollable] = useState(false);
     const [isBottom, setIsBottom] = useState(false);
 
     useEffect(() => {
-        if (!isOperasional) {
+        if (!isScrollableCard) {
             setIsScrollable(false);
             return;
         }
@@ -50,11 +50,11 @@ export const FormCard = ({
         
         window.addEventListener("resize", checkScrollable);
         return () => window.removeEventListener("resize", checkScrollable);
-    }, [title, isOperasional]);
+    }, [title, isScrollableCard]);
 
 
     useEffect(() => {
-        if (!isOperasional) return;
+        if (!isScrollableCard) return;
 
         const el = contentRef.current;
         if (!el) return;
@@ -67,7 +67,7 @@ export const FormCard = ({
 
         el.addEventListener("scroll", handleScroll);
         return () => el.removeEventListener("scroll", handleScroll);
-    }, [isOperasional]);
+    }, [isScrollableCard]);
 
     return (
         <motion.div
@@ -111,7 +111,7 @@ export const FormCard = ({
                 </div>
 
                 {/* Scrollable area only for Operasional */}
-                {isOperasional ? (
+                {isScrollableCard ? (
                 <div ref={contentRef} className="relative h-full overflow-y-auto pr-2">
                     <FormQuestion color={color} title={title} onNext={onNext} />
 
@@ -124,14 +124,14 @@ export const FormCard = ({
 
                     {/* Fade masks only if scrollable */}
                     {isScrollable && (
-                    <>
-                        {/* Bottom gradient that fades out when scrolled to bottom */}
-                        <div
-                        className={`absolute -bottom-2.5 left-0 w-full h-52 pointer-events-none transition-opacity duration-300 z-10 ${
+                    <div
+                        className={`absolute bottom-0 left-0 w-full h-40 pointer-events-none transition-opacity duration-300 z-10 ${
                             isBottom ? "opacity-0" : "opacity-100"
-                        } bg-gradient-to-t from-[#FCB040] via-[#FCB040]/80 to-transparent`}
-                        />
-                    </>
+                        }`}
+                        style={{
+                            background: `linear-gradient(to top, ${color}, ${color}CC, transparent)`,
+                        }}
+                    />
                     )}
                 </div>
                 ) : (
