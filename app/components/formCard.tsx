@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { FormQuestion } from ".";
 import { useEffect, useRef, useState } from "react";
+import { FormQuestionRef } from "./formQuestion";
 
 export interface FormCardProps {
     title: string;
@@ -12,6 +13,8 @@ export interface FormCardProps {
     isPrev?: boolean;
     onNext: () => void;
     onPrev: () => void;
+    onSubmit: () => void;
+    registerFormRef: (title: string, ref: FormQuestionRef | null) => void;
 }
 
 export const FormCard = ({
@@ -22,7 +25,15 @@ export const FormCard = ({
     isPrev,
     onNext,
     onPrev,
+    onSubmit, 
+    registerFormRef
 }: FormCardProps) => {
+    const questionRef = useRef<FormQuestionRef | null>(null);
+    
+    useEffect(() => {
+        registerFormRef(title, questionRef.current);
+    }, [title, registerFormRef]);
+
     const handleClick = () => {
         if (isPrev) onPrev();
     };
@@ -113,7 +124,13 @@ export const FormCard = ({
                 {/* Scrollable area only for Operasional */}
                 {isScrollableCard ? (
                 <div ref={contentRef} className="relative h-full overflow-y-auto pr-2">
-                    <FormQuestion color={color} title={title} onNext={onNext} />
+                    <FormQuestion
+                        ref={questionRef} 
+                        color={color} 
+                        title={title} 
+                        onNext={onNext} 
+                        onSubmit={onSubmit} 
+                    />
 
                     {/* "Scroll for more" text above gradient */}
                     {isScrollable && !isBottom && (
@@ -137,7 +154,13 @@ export const FormCard = ({
                 ) : (
                 // Non-operasional cards: no scroll
                 <div className="relative h-full">
-                    <FormQuestion color={color} title={title} onNext={onNext} />
+                    <FormQuestion
+                        ref={questionRef}
+                        color={color} 
+                        title={title} 
+                        onNext={onNext} 
+                        onSubmit={onSubmit}
+                    />
                 </div>
                 )}
             </div>

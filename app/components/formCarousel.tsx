@@ -2,15 +2,19 @@
 
 import { motion } from "framer-motion";
 import { FormCard } from "./formCard";
+import { FormQuestionRef } from "./formQuestion";
 
 interface FormCarouselProps {
     cards: { title: string; desc: string; color: string }[];
     activeIndex: number;
     handleNext: () => void;
     handlePrev: () => void;
+    handleSubmit: () => void;
+    registerFormRef: (title: string, ref: FormQuestionRef | null) => void;
 }
 
-export const FormCarousel = ({ cards, activeIndex, handleNext, handlePrev }: FormCarouselProps) => {
+export const FormCarousel = ({ cards, activeIndex, handleNext, handlePrev, handleSubmit, registerFormRef }: FormCarouselProps) => {
+
     return (
         <div className="relative flex justify-center items-center w-full max-w-[420px] h-[500px] mt-10">
             {cards.map((card, index) => {
@@ -49,6 +53,8 @@ export const FormCarousel = ({ cards, activeIndex, handleNext, handlePrev }: For
                                 isPrev={isPrev}
                                 onNext={handleNext}
                                 onPrev={handlePrev}
+                                onSubmit={handleSubmit}
+                                registerFormRef={registerFormRef}
                             />
                         </motion.div>
                     </motion.div>
