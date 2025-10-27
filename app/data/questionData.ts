@@ -87,7 +87,7 @@ export const questionsData: Record<string, Question[]> = {
         {
             id: "aktifKomunitas",
             label: "Dimana anda aktif dalam sebuah komunitas UMKM?",
-            type: "checkbox",
+            type: "radio",
             options: [
                 "Tidak Ikut Komunitas",
                 "Hanya di tingkat daerah (Desa/Kecamatan/Kabupaten)",
@@ -113,11 +113,11 @@ export const questionsData: Record<string, Question[]> = {
         {
             id: "pemasaranOffline",
             label: "Pemasaran Offline",
-            type: "checkbox",
+            type: "radio",
             options: [
-                "Hanya di Desa",
-                "Sudah sampai Kecamatan",
+                "Hanya di Desa/Lingkungan tempat tinggal",
                 "Sudah sampai Kabupaten/Kota",
+                "Sudah sampai Kecamatan",
                 "Sudah sampai Provinsi"
             ]
         },
@@ -224,7 +224,8 @@ export const questionsData: Record<string, Question[]> = {
             type: "radio",
             options: [
                 "Manual",
-                "Digital"
+                "Digital",
+                "Manual & Digital"
             ]
         },
         {
