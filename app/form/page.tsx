@@ -5,6 +5,7 @@ import { FormCarousel, OpeningContainer, TransitionWrapper } from "../components
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { FormQuestionRef } from "../components/formQuestion";
+import { handleNext, handlePrev, handleSubmit } from "../utils/formHandlers";
 
 export default function FormPage() {
     const [isTransitioning, setIsTransitioning] = useState(false);
@@ -35,70 +36,69 @@ export default function FormPage() {
         }, 1300); // Control the transition timing
     };
 
-    const handleNext = () => {
-        const currentCard = cards[activeIndex];
-        const formRef = formRefs.current[currentCard.title];
+    // const handleNext = () => {
+    //     const currentCard = cards[activeIndex];
+    //     const formRef = formRefs.current[currentCard.title];
 
-        console.log(`➡️ Next button clicked on: ${currentCard.title}`);
+    //     console.log(`➡️ Next button clicked on: ${currentCard.title}`);
 
-        if (formRef) {
-            const currentAnswers = formRef.getAnswers();
+    //     if (formRef) {
+    //         const currentAnswers = formRef.getAnswers();
 
-            // 🧩 Merge immediately (don’t rely on setState async timing)
-            const updatedAllAnswers = {
-                ...allAnswers,
-                [currentCard.title]: currentAnswers,
-            };
+    //         // 🧩 Merge immediately (don’t rely on setState async timing)
+    //         const updatedAllAnswers = {
+    //             ...allAnswers,
+    //             [currentCard.title]: currentAnswers,
+    //         };
 
-            // Update state for later reference
-            setAllAnswers(updatedAllAnswers);
+    //         // Update state for later reference
+    //         setAllAnswers(updatedAllAnswers);
 
-            // 🧾 Log full data before going to next
-            console.log("📩 Current answers from this card:", currentAnswers);
-            console.log("📚 All answers so far:");
-            console.table(updatedAllAnswers);
-        } else {
-            console.warn(`⚠️ No formRef found for ${currentCard.title}`);
-        }
+    //         // 🧾 Log full data before going to next
+    //         console.log("📩 Current answers from this card:", currentAnswers);
+    //         console.log("📚 All answers so far:");
+    //         console.table(updatedAllAnswers);
+    //     } else {
+    //         console.warn(`⚠️ No formRef found for ${currentCard.title}`);
+    //     }
 
-        // Move to next card
-        if (activeIndex < cards.length - 1) {
-            setActiveIndex((prev) => prev + 1);
-            console.log(`🎯 Moved to next card: ${cards[activeIndex + 1].title}`);
-        } else {
-            console.log("🚫 Already at the last card");
-        }
-    };
+    //     // Move to next card
+    //     if (activeIndex < cards.length - 1) {
+    //         setActiveIndex((prev) => prev + 1);
+    //         console.log(`🎯 Moved to next card: ${cards[activeIndex + 1].title}`);
+    //     } else {
+    //         console.log("🚫 Already at the last card");
+    //     }
+    // };
 
-    const handlePrev = () => {
-        setActiveIndex((prev) => Math.max(prev - 1, 0));
-    };
+    // const handlePrev = () => {
+    //     setActiveIndex((prev) => Math.max(prev - 1, 0));
+    // };
 
-    const handleSubmit = () => {    
-        const currentCard = cards[activeIndex];
-        const formRef = formRefs.current[currentCard.title];
+    // const handleSubmit = () => {    
+    //     const currentCard = cards[activeIndex];
+    //     const formRef = formRefs.current[currentCard.title];
 
-        console.log(`🧾 Submit button clicked on: ${currentCard.title}`);
+    //     console.log(`🧾 Submit button clicked on: ${currentCard.title}`);
 
-        if (!formRef) {
-            console.warn("⚠️ No formRef found for the current card!");
-            return;
-        }
+    //     if (!formRef) {
+    //         console.warn("⚠️ No formRef found for the current card!");
+    //         return;
+    //     }
 
-        const latestAnswers = formRef.getAnswers();
+    //     const latestAnswers = formRef.getAnswers();
 
-        const mergedAnswers = {
-            ...allAnswers,
-            [currentCard.title]: latestAnswers,
-        };
+    //     const mergedAnswers = {
+    //         ...allAnswers,
+    //         [currentCard.title]: latestAnswers,
+    //     };
 
-        setAllAnswers(mergedAnswers);
+    //     setAllAnswers(mergedAnswers);
 
-        console.log("✅ Final merged answers:");
-        console.table(mergedAnswers);
+    //     console.log("✅ Final merged answers:", mergedAnswers);
 
-        alert("✅ Submit button clicked! Check the console for full data.");
-    };
+    //     alert("✅ Submit button clicked! Check the console for full data.");
+    // };
 
     return (    
         <div>
@@ -141,9 +141,9 @@ export default function FormPage() {
                         <FormCarousel 
                             cards={cards}
                             activeIndex={activeIndex}
-                            handleNext={handleNext}
-                            handlePrev={handlePrev}
-                            handleSubmit={handleSubmit}
+                            handleNext={() => handleNext(activeIndex, setActiveIndex, cards, formRefs, allAnswers, setAllAnswers)}
+                            handlePrev={() => handlePrev(setActiveIndex)}
+                            handleSubmit={() => handleSubmit(activeIndex, cards, formRefs, allAnswers, setAllAnswers, router)}
                             registerFormRef={(title, ref) => (formRefs.current[title] = ref)}
                         />
                     </div>
