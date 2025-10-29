@@ -2,7 +2,7 @@
 "use client";
 
 import { FormQuestionRef } from "../components/formQuestion";
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+// import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { calculateScores } from "./calculateScores";
 
 export function handleNext(
@@ -61,7 +61,8 @@ export function handleSubmit(
     setAllAnswers: React.Dispatch<
         React.SetStateAction<Record<string, Record<string, string>>>
     >,
-    router: AppRouterInstance
+    handleTransition: (route: string) => void
+    // router: AppRouterInstance
 ) {
     const currentCard = cards[activeIndex];
     const formRef = formRefs.current[currentCard.title];
@@ -89,7 +90,11 @@ export function handleSubmit(
     // 👉 Push to result page
     const encodedScores = encodeURIComponent(JSON.stringify(scoreData));
     const namaPemilik = mergedAnswers["Info Awal"]?.namaPemilik || "";
-    router.push(
-        `/result?namaPemilik=${encodeURIComponent(namaPemilik)}&scoreData=${encodedScores}`
-    );
+    const resultUrl = `/result?namaPemilik=${encodeURIComponent(
+        namaPemilik
+    )}&scoreData=${encodedScores}`;
+    // router.push(
+    //     `/result?namaPemilik=${encodeURIComponent(namaPemilik)}&scoreData=${encodedScores}`
+    // );
+    handleTransition(resultUrl);
 }
