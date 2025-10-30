@@ -91,7 +91,8 @@ export const questionsData: Record<string, Question[]> = {
             options: [
                 "Tidak Ikut Komunitas",
                 "Hanya di tingkat daerah (Desa/Kecamatan/Kabupaten)",
-                "Sudah sampai tingkat provinsi"
+                "Sudah sampai tingkat provinsi",
+                "Sudah sampai lintas daerah dan sektor"
             ]
         }
     ],

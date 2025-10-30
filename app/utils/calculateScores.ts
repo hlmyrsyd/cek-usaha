@@ -40,6 +40,9 @@ export function calculateScores(allAnswers: AnswerMap): ScoreResult {
         case "Sudah sampai tingkat provinsi":
             score = 6;
             break;
+        case "Sudah sampai lintas daerah dan sektor":
+            score = 10;
+            break;
         default:
             score = 0;
             break;
